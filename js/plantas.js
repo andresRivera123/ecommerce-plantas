@@ -21,6 +21,56 @@ const plantas = [
     precio: 15.95,
   },
   {
+    id: "flor-03",
+    titulo: "Azalea hortinno Rosa",
+    imagen: "./img/flores-03.webp",
+    categoria: {
+      nombre: "Flores",
+      id: "flores",
+    },
+    precio: 13.5,
+  },
+  {
+    id: "flor-04",
+    titulo: "Cala blanca",
+    imagen: "./img/flores-04.webp",
+    categoria: {
+      nombre: "Flores",
+      id: "flores",
+    },
+    precio: 13.5,
+  },
+  {
+    id: "flor-05",
+    titulo: "Rosa mini",
+    imagen: "./img/flores-05.webp",
+    categoria: {
+      nombre: "Flores",
+      id: "flores",
+    },
+    precio: 7.0,
+  },
+  {
+    id: "flor-06",
+    titulo: "Stephanotis",
+    imagen: "./img/flores-06.webp",
+    categoria: {
+      nombre: "Flores",
+      id: "flores",
+    },
+    precio: 17.95,
+  },
+  {
+    id: "flor-07",
+    titulo: "Kalanchoe",
+    imagen: "./img/flores-07.webp",
+    categoria: {
+      nombre: "Flores",
+      id: "flores",
+    },
+    precio: 2.75,
+  },
+  {
     id: "cactus-01",
     titulo: "Cactus cereus peruvianus",
     imagen: "./img/cactus-01.webp",
@@ -100,12 +150,34 @@ const plantas = [
     },
     precio: 3.85,
   },
+  {
+    id: "hojaverde-03",
+    titulo: "Asparagus setaceus",
+    imagen: "./img/hojaverde-03.webp",
+    categoria: {
+      nombre: "Hoja verde",
+      id: "hojaverde",
+    },
+    precio: 5.75,
+  },
+  {
+    id: "hojaverde-04",
+    titulo: "Aeschynanthus",
+    imagen: "./img/hojaverde-04.webp",
+    categoria: {
+      nombre: "Hoja verde",
+      id: "hojaverde",
+    },
+    precio: 20.95,
+  },
 ];
 
 /* DOM */
 const contenedorProductos = document.querySelector("#contenedor-productos");
 const botonesCategorias = document.querySelectorAll(".boton-categoria");
 const tituloPrincipal = document.querySelector("#titulo-principal");
+let botonAgregar = document.querySelectorAll(".producto-agregar");
+const numerito = document.querySelector("#numerito");
 
 function cargarProductos(plantas) {
   contenedorProductos.innerHTML = "";
@@ -121,21 +193,23 @@ function cargarProductos(plantas) {
         </div>
         `;
     contenedorProductos.append(div);
+    actualizarBotonesAgregar();
   });
 }
-
+//Inicializar todos los productos
 cargarProductos(plantas);
 
+//Menu sidebar y cargar productos filtrados
 botonesCategorias.forEach((boton) => {
   boton.addEventListener("click", (e) => {
     botonesCategorias.forEach((boton) => boton.classList.remove("active"));
     e.currentTarget.classList.add("active");
     if (e.currentTarget.id !== "todas") {
-        //Cambiar titulo
+      //Cambiar titulo
       const plantaCategoria = plantas.find(
         (planta) => planta.categoria.id === e.currentTarget.id
       );
-      tituloPrincipal.innerText = plantaCategoria.categoria.nombre
+      tituloPrincipal.innerText = plantaCategoria.categoria.nombre;
       //Filtar por boton
       const plantasBoton = plantas.filter(
         (planta) => planta.categoria.id === e.currentTarget.id
@@ -147,3 +221,31 @@ botonesCategorias.forEach((boton) => {
     }
   });
 });
+
+//Actualizar los botones en cada categoría
+function actualizarBotonesAgregar() {
+  botonAgregar = document.querySelectorAll(".producto-agregar");
+  botonAgregar.forEach((boton) => {
+    boton.addEventListener("click", agregarCarrito);
+  });
+}
+
+const plantasEnCarrito = [];
+function agregarCarrito(e) {
+  const idBoton = e.currentTarget.id;
+  const productoAgregado = plantas.find((planta) => planta.id === idBoton);
+  if (plantasEnCarrito.some((planta) => planta.id === idBoton)) {
+    const index = plantasEnCarrito.findIndex((planta) => planta.id === idBoton);
+    plantasEnCarrito[index].cantidad++;
+  } else {
+    productoAgregado.cantidad = 1;
+    plantasEnCarrito.push(productoAgregado);
+  }
+  console.log(plantasEnCarrito)
+  actualizarNumerito()
+}
+
+function actualizarNumerito(){
+  let nuevoNumerito = plantasEnCarrito.reduce((acumulador, planta) => acumulador + planta.cantidad, 0)
+  numerito.innerText = nuevoNumerito
+}
