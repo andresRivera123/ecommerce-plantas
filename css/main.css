@@ -119,11 +119,11 @@ aside {
   margin-top: 2rem;
 }
 
-.numerito{
-    background-color: var(--clr-white);
-    color: var(--clr-main);
-    padding: 0 .25rem;
-    border-radius: .15rem 0.25rem;
+.numerito {
+  background-color: var(--clr-white);
+  color: var(--clr-main);
+  padding: 0 0.25rem;
+  border-radius: 0.15rem 0.25rem;
 }
 
 .texto-footer {
@@ -278,6 +278,105 @@ main {
   border-bottom-right-radius: 1rem;
 }
 
-.disabled{
+.disabled {
+  display: none;
+}
+
+.header-mobil {
+  display: none;
+}
+
+.cerrar-menu{
+  display: none;
+}
+
+@media screen and (max-width: 1000px){
+  .contenedor-productos {
+    grid-template-columns: 1fr 1fr
+  }
+}
+
+
+@media screen and (max-width: 600px) {
+  .header-mobil {
+    display: flex;
+    padding: 1rem;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .header-mobil .logo {
+    color: var(--clr-white);
+  }
+
+  .abrir-menu,
+  .cerrar-menu {
+    background-color: transparent;
+    color: var(--clr-white);
+    font-size: 2rem;
+    border: 0;
+    cursor: pointer;
+  }
+
+  .cerrar-menu{
+    display: block;
+    position: absolute;
+    top: 0.1rem;
+    right: 1rem ;
+  }
+
+  .container {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  main {
+    margin: 1rem;
+    margin-top: 0;
+    padding: 1rem;
+  }
+
+  aside {
+    padding: 2rem;
+    position: fixed;
+    z-index: 9;
+    background-color: var(--clr-main);
+    left: 0;
+    box-shadow: 0 0 0 100vmax rgba(0, 0, 0, 0.75);
+    transform: translateX(-100%);
+    opacity: 0;
+    visibility: hidden;
+    transition: .2s;
+  }
+
+  .aside-visible {
+    transform: translateX(0);
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .boton-menu.active {
+    border-radius: 1rem;
+  }
+
+  .contenedor-productos {
+    grid-template-columns: 1fr;
+  }
+
+  .boton-menu.active::before,
+  .boton-menu.active::after {
     display: none;
+  }
+
+  .carrito-producto{
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .carrito-acciones{
+    flex-wrap: wrap;
+    row-gap: 1rem;
+  }
+
 }

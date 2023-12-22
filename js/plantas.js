@@ -180,7 +180,8 @@ let botonAgregar = document.querySelectorAll(".producto-agregar");
 const numerito = document.querySelector("#numerito");
 
 function cargarProductos(plantas) {
-  contenedorProductos.innerHTML = "";
+  console.log(contenedorProductos);
+  contenedorProductos.innerHTML = ``;
   plantas.forEach((planta) => {
     const div = document.createElement("div");
     div.classList.add("producto");
@@ -195,6 +196,7 @@ function cargarProductos(plantas) {
     contenedorProductos.append(div);
     actualizarBotonesAgregar();
   });
+
 }
 //Inicializar todos los productos
 cargarProductos(plantas);
@@ -230,7 +232,16 @@ function actualizarBotonesAgregar() {
   });
 }
 
-const plantasEnCarrito = [];
+//Conocer si hay algo en el carrito de entrada
+let plantasEnCarritoLS = localStorage.getItem("plantas-en-carrito");
+let nuevoNumerito;
+if (plantasEnCarritoLS) {
+  plantasEnCarrito = JSON.parse(plantasEnCarritoLS);
+  actualizarNumerito();
+} else {
+  plantasEnCarrito = [];
+}
+
 function agregarCarrito(e) {
   const idBoton = e.currentTarget.id;
   const productoAgregado = plantas.find((planta) => planta.id === idBoton);
@@ -241,11 +252,14 @@ function agregarCarrito(e) {
     productoAgregado.cantidad = 1;
     plantasEnCarrito.push(productoAgregado);
   }
-  console.log(plantasEnCarrito)
-  actualizarNumerito()
+  actualizarNumerito();
+  localStorage.setItem("plantas-en-carrito", JSON.stringify(plantasEnCarrito));
 }
 
-function actualizarNumerito(){
-  let nuevoNumerito = plantasEnCarrito.reduce((acumulador, planta) => acumulador + planta.cantidad, 0)
-  numerito.innerText = nuevoNumerito
+function actualizarNumerito() {
+  let nuevoNumerito = plantasEnCarrito.reduce(
+    (acumulador, planta) => acumulador + planta.cantidad,
+    0
+  );
+  numerito.innerText = nuevoNumerito;
 }
