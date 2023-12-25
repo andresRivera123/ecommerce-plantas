@@ -186,7 +186,7 @@ function cargarProductos(plantas) {
     const div = document.createElement("div");
     div.classList.add("producto");
     div.innerHTML = `
-        <img class="producto-imagen" src="${planta.imagen}" alt="imagen ${planta.titulo}" />
+        <img class="producto-imagen" loading="lazy"s src="${planta.imagen}" alt="imagen ${planta.titulo}" />
         <div class="producto-detalles">
             <h3 class="producto-titulo">${planta.titulo}</h3>
             <p class="producto-precio">$${planta.precio}</p>
